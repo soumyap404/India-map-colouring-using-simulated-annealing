@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>India Map Coloring | Simulated Annealing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=JetBrains+Mono:wght@300;400;500;600&family=Rajdhani:wght@300;400;500;600;700&family=Tiro+Devanagari+Hindi&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     SPLASH SCREEN
+     ═══════════════════════════════════════════════════ -->
+<div id="splashScreen">
+
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="chakra-bg">
+        <svg class="chakra-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(0,56,255,0.08)" stroke-width="2"/>
+            <circle cx="100" cy="100" r="60" fill="none" stroke="rgba(0,56,255,0.06)" stroke-width="1.5"/>
+            <circle cx="100" cy="100" r="30" fill="none" stroke="rgba(0,56,255,0.05)" stroke-width="1"/>
+            <g id="chakraSpokes"></g>
+        </svg>
+    </div>
+
+    <div class="tricolor-left">
+        <div class="tri-saffron"></div><div class="tri-white"></div><div class="tri-green"></div>
+    </div>
+    <div class="tricolor-right">
+        <div class="tri-saffron"></div><div class="tri-white"></div><div class="tri-green"></div>
+    </div>
+
+    <div class="emblems-layer" id="emblemsLayer"></div>
+
+    <div class="intro-container">
+
+        <div class="top-badge">
+            <div class="badge-flag">
+                <div class="flag-saffron"></div>
+                <div class="flag-white"><div class="mini-chakra"></div></div>
+                <div class="flag-green"></div>
+            </div>
+            <span class="badge-text">BHARAT &middot; INDIA &middot; भारत</span>
+        </div>
+
+        <div class="emblem-icon">
+            <div class="emblem-ring outer-ring"></div>
+            <div class="emblem-ring mid-ring"></div>
+            <div class="emblem-ring inner-ring"></div>
+            <i class="fas fa-map-marked-alt emblem-fa"></i>
+        </div>
+
+        <div class="title-block">
+            <div class="india-label"><span class="devanagari">भारत का मानचित्र</span></div>
+            <h1 class="main-title">
+                <span class="title-line-1">INDIA</span>
+                <span class="title-line-2">MAP COLORING</span>
+            </h1>
+            <div class="title-underline">
+                <div class="underline-saffron"></div>
+                <div class="underline-white"></div>
+                <div class="underline-green"></div>
+            </div>
+        </div>
+
+        <p class="subtitle">Simulated Annealing Algorithm Visualization</p>
+
+        <div class="intro-stats">
+            <div class="intro-stat">
+                <span class="stat-num" data-target="36">0</span>
+                <span class="stat-lbl">States &amp; UTs</span>
+            </div>
+            <div class="intro-divider"></div>
+            <div class="intro-stat">
+                <span class="stat-num" data-target="4">0</span>
+                <span class="stat-lbl">Min Colors</span>
+            </div>
+            <div class="intro-divider"></div>
+            <div class="intro-stat">
+                <span class="stat-num" data-target="8">0</span>
+                <span class="stat-lbl">Colors Used</span>
+            </div>
+        </div>
+
+        <div class="algo-pills">
+            <div class="pill pill-1"><i class="fas fa-fire"></i><span>Simulated Annealing</span></div>
+            <div class="pill pill-2"><i class="fas fa-project-diagram"></i><span>Graph Coloring</span></div>
+            <div class="pill pill-3"><i class="fas fa-snowflake"></i><span>Cooling Schedule</span></div>
+        </div>
+
+        <div class="btn-wrapper">
+            <button class="start-btn" id="startBtn" onclick="launchDashboard()">
+                <div class="btn-bg-saffron"></div>
+                <div class="btn-bg-green"></div>
+                <div class="btn-inner">
+                    <span class="btn-icon-wrap"><i class="fas fa-play btn-play-icon"></i></span>
+                    <span class="btn-label">Explore Visualization</span>
+                    <i class="fas fa-arrow-right btn-arrow"></i>
+                </div>
+                <div class="btn-glow"></div>
+                <div class="btn-ripple" id="btnRipple"></div>
+            </button>
+            <p class="btn-sub">Click to launch the algorithm dashboard</p>
+        </div>
+
+        <div class="made-by">
+            <span class="made-line">
+                <i class="fas fa-code" style="color:#ff9933;margin-right:6px;font-size:0.7rem;"></i>
+                Crafted with patriotic pride by Team
+                <strong style="color:#ff9933;margin-left:4px;">Soham &middot; Soumya &middot; Shouvik &middot; Sanjib</strong>
+            </span>
+        </div>
+
+    </div>
+
+    <div class="bottom-wave">
+        <svg viewBox="0 0 1440 60" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,30 C240,0 480,60 720,30 C960,0 1200,60 1440,30 L1440,60 L0,60 Z" fill="rgba(255,153,51,0.07)"/>
+            <path d="M0,40 C360,10 720,60 1080,20 C1260,10 1380,45 1440,40 L1440,60 L0,60 Z" fill="rgba(19,136,8,0.06)"/>
+        </svg>
+    </div>
+
+</div><!-- /#splashScreen -->
+
+
+<!-- ═══════════════════════════════════════════════════
+     DASHBOARD SCREEN (hidden until Start clicked)
+     ═══════════════════════════════════════════════════ -->
+<div id="dashboardScreen">
+
+    <div class="bg-grid"></div>
+    <div class="bg-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+    <div class="scanlines"></div>
+
+    <div class="app-container">
+
+        <header class="header">
+            <div class="header-badge">
+                <span class="badge-dot"></span>
+                LIVE ALGORITHM VISUALIZATION
+            </div>
+            <h1 class="header-title">
+                <span class="title-accent">INDIA</span>
+                <span class="title-main">MAP COLORING</span>
+            </h1>
+            <p class="header-sub">
+                <span class="mono">SIMULATED ANNEALING</span> &mdash; Constraint Satisfaction Optimization Engine
+            </p>
+            <div class="header-actions">
+                <button id="themeToggleBtn" class="btn-icon-pill">
+                    <i class="fas fa-sun"></i><span>Light Mode</span>
+                </button>
+                <button class="btn-icon-pill back-btn" onclick="backToIntro()">
+                    <i class="fas fa-home"></i><span>Home</span>
+                </button>
+            </div>
+        </header>
+
+        <div id="mapLoadingOverlay" class="loading-overlay">
+            <div class="loader-ring"><div class="loader-ring-inner"></div></div>
+            <div class="loading-text">
+                <span class="loading-label">INITIALIZING</span>
+                <span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+
+            <div class="map-card glass-panel">
+                <div class="panel-header">
+                    <div class="panel-title-row">
+                        <i class="fas fa-map-marked-alt panel-icon"></i>
+                        <span class="panel-title">GEOGRAPHIC STATE MAP</span>
+                        <div class="live-indicator"><span class="live-dot"></span>LIVE</div>
+                    </div>
+                </div>
+                <div class="canvas-wrapper">
+                    <div class="map-corner top-left"></div>
+                    <div class="map-corner top-right"></div>
+                    <div class="map-corner bottom-left"></div>
+                    <div class="map-corner bottom-right"></div>
+                    <svg id="indiaMapSVG" viewBox="0 0 560 650" xmlns="http://www.w3.org/2000/svg">
+                        <g id="statesGroup"></g>
+                        <g id="labelsGroup"></g>
+                    </svg>
+                </div>
+                <div id="mapTooltip" class="map-tooltip"></div>
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-fire"></i></div>
+                        <div class="stat-content">
+                            <div class="stat-label">CONFLICTS</div>
+                            <div class="stat-value" id="conflictsValue">0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-thermometer-half"></i></div>
+                        <div class="stat-content">
+                            <div class="stat-label">TEMPERATURE</div>
+                            <div class="stat-value" id="tempValue">100.0</div>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-palette"></i></div>
+                        <div class="stat-content">
+                            <div class="stat-label">COLORS USED</div>
+                            <div class="stat-value" id="colorsUsedValue">0</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="legend-strip">
+                    <div class="legend-item"><div class="color-dot" style="background:#e63946;"></div><span>C1</span></div>
+                    <div class="legend-item"><div class="color-dot" style="background:#457b9d;"></div><span>C2</span></div>
+                    <div class="legend-item"><div class="color-dot" style="background:#2a9d8f;"></div><span>C3</span></div>
+                    <div class="legend-item"><div class="color-dot" style="background:#e9c46a;"></div><span>C4</span></div>
+                    <div class="legend-item"><div class="color-dot" style="background:#b5838d;"></div><span>C5</span></div>
+                    <div class="legend-item"><div class="color-dot" style="background:#6d6875;"></div><span>C6</span></div>
+                    <div class="legend-item"><div class="color-dot" style="background:#f4a261;"></div><span>C7</span></div>
+                    <div class="legend-item"><div class="color-dot" style="background:#90be6d;"></div><span>C8</span></div>
+                </div>
+                <div class="controls-section">
+                    <div class="button-group">
+                        <button class="btn btn-primary" id="startAnnealingBtn">
+                            <i class="fas fa-play"></i><span>Start Annealing</span>
+                        </button>
+                        <button class="btn btn-secondary" id="resetColorsBtn">
+                            <i class="fas fa-sync-alt"></i><span>Random Reset</span>
+                        </button>
+                        <button class="btn btn-status" id="annealingStatusBtn">
+                            <i class="fas fa-circle"></i><span>Idle</span>
+                        </button>
+                    </div>
+                    <div class="slider-group">
+                        <div class="slider-row">
+                            <label class="slider-label">
+                                <i class="fas fa-thermometer-three-quarters"></i>
+                                Initial Temperature
+                                <span class="slider-val" id="initTempDisplay">100</span>
+                            </label>
+                            <input type="range" id="initTempSlider" min="10" max="300" value="100" step="5">
+                        </div>
+                        <div class="slider-row">
+                            <label class="slider-label">
+                                <i class="fas fa-tachometer-alt"></i>
+                                Animation Speed
+                                <span class="slider-val" id="speedDisplay">45 ms</span>
+                            </label>
+                            <input type="range" id="speedSlider" min="10" max="150" value="45" step="5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <div class="glass-panel chart-panel">
+                    <div class="panel-header">
+                        <div class="panel-title-row">
+                            <i class="fas fa-chart-line panel-icon"></i>
+                            <span class="panel-title">TEMPERATURE vs CONFLICTS</span>
+                        </div>
+                    </div>
+                    <div class="chart-container"><canvas id="tempChartCanvas"></canvas></div>
+                    <div class="best-badge">
+                        <i class="fas fa-trophy"></i>
+                        Best Conflicts Found: <strong id="bestConflictSpan">&mdash;</strong>
+                        <span class="badge-meta mono">| T_init: <span id="initialTempText">100</span> | &alpha;: 0.985</span>
+                    </div>
+                </div>
+                <div class="sa-cards-grid">
+                    <div class="sa-mini-card" data-delay="0">
+                        <div class="sa-card-icon"><i class="fas fa-fire-alt"></i></div>
+                        <h4>Initial Phase</h4>
+                        <p>Random coloring. High temperature enables free exploration with high acceptance of worse solutions.</p>
+                    </div>
+                    <div class="sa-mini-card" data-delay="1">
+                        <div class="sa-card-icon"><i class="fas fa-random"></i></div>
+                        <h4>Exploration</h4>
+                        <p>Pick a random region, change its color. Accept with probability <em>e<sup>-&Delta;E/T</sup></em> if worse.</p>
+                    </div>
+                    <div class="sa-mini-card" data-delay="2">
+                        <div class="sa-card-icon"><i class="fas fa-snowflake"></i></div>
+                        <h4>Cooling</h4>
+                        <p>T multiplied by 0.985 each step. As T&rarr;0 algorithm becomes greedy, escaping fewer local minima.</p>
+                    </div>
+                    <div class="sa-mini-card" data-delay="3">
+                        <div class="sa-card-icon"><i class="fas fa-bullseye"></i></div>
+                        <h4>Convergence</h4>
+                        <p>Cooling avoids local minima. Near-optimal 4-color solution found dynamically as conflicts reach zero.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /.dashboard-grid -->
+
+        <section class="code-section glass-panel">
+            <div class="panel-header">
+                <div class="panel-title-row">
+                    <i class="fas fa-code panel-icon"></i>
+                    <span class="panel-title">ALGORITHM SOURCE</span>
+                    <div class="code-toggle-group">
+                        <button class="code-tab active" id="tabCode" data-tab="code">
+                            <i class="fas fa-file-code"></i> JavaScript Code
+                        </button>
+                        <button class="code-tab" id="tabPseudo" data-tab="pseudo">
+                            <i class="fas fa-project-diagram"></i> Pseudocode
+                        </button>
+                    </div>
+                    <button class="btn-copy" id="copyCodeBtn"><i class="fas fa-copy"></i> Copy</button>
+                </div>
+            </div>
+            <div class="code-panel active" id="panelCode">
+                <div class="code-file-tab">
+                    <i class="fas fa-circle" style="color:#e63946"></i>
+                    <i class="fas fa-circle" style="color:#e9c46a"></i>
+                    <i class="fas fa-circle" style="color:#2a9d8f"></i>
+                    <span class="code-filename">script.js &mdash; Simulated Annealing Core</span>
+                </div>
+                <pre class="code-block" id="codeBlock"><code><span class="c-kw">const</span> <span class="c-var">COLOR_PALETTE</span> = [
+    <span class="c-str">"#e63946"</span>, <span class="c-str">"#457b9d"</span>, <span class="c-str">"#2a9d8f"</span>, <span class="c-str">"#e9c46a"</span>,
+    <span class="c-str">"#b5838d"</span>, <span class="c-str">"#6d6875"</span>, <span class="c-str">"#f4a261"</span>, <span class="c-str">"#90be6d"</span>
+];
+<span class="c-kw">const</span> <span class="c-var">COOLING_RATE</span> = <span class="c-num">0.985</span>;
+
+<span class="c-kw">function</span> <span class="c-fn">computeConflicts</span>(colors) {
+    <span class="c-kw">let</span> n = <span class="c-num">0</span>;
+    <span class="c-kw">for</span> (<span class="c-kw">let</span> i = <span class="c-num">0</span>; i &lt; stateNames.length; i++)
+        <span class="c-kw">for</span> (<span class="c-kw">const</span> j <span class="c-kw">of</span> adjIdx[i])
+            <span class="c-kw">if</span> (j &gt; i &amp;&amp; colors[i] === colors[j]) n++;
+    <span class="c-kw">return</span> n;
+}
+
+<span class="c-kw">function</span> <span class="c-fn">performAnnealingStep</span>() {
+    <span class="c-kw">if</span> (!annealingActive) <span class="c-kw">return</span>;
+    <span class="c-kw">const</span> newColors    = [...currentColors];
+    <span class="c-kw">const</span> randomRegion = Math.<span class="c-fn">floor</span>(Math.<span class="c-fn">random</span>() * stateNames.length);
+    <span class="c-kw">const</span> newColor     = Math.<span class="c-fn">floor</span>(Math.<span class="c-fn">random</span>() * COLOR_PALETTE.length);
+    newColors[randomRegion] = newColor;
+    <span class="c-kw">const</span> newConflicts = <span class="c-fn">computeConflicts</span>(newColors);
+    <span class="c-kw">const</span> delta        = newConflicts - currentConflicts;
+    <span class="c-kw">let</span> accept = <span class="c-bool">false</span>;
+    <span class="c-kw">if</span> (delta &lt; <span class="c-num">0</span>) {
+        accept = <span class="c-bool">true</span>;
+    } <span class="c-kw">else</span> {
+        <span class="c-kw">const</span> probability = Math.<span class="c-fn">exp</span>(-delta / temperature);
+        <span class="c-kw">if</span> (Math.<span class="c-fn">random</span>() &lt; probability) accept = <span class="c-bool">true</span>;
+    }
+    <span class="c-kw">if</span> (accept) {
+        currentColors    = newColors;
+        currentConflicts = newConflicts;
+        <span class="c-kw">if</span> (currentConflicts &lt; bestConflicts) {
+            bestConflicts = currentConflicts;
+            bestColors    = [...currentColors];
+        }
+    }
+    temperature = Math.<span class="c-fn">max</span>(temperature * <span class="c-var">COOLING_RATE</span>, <span class="c-num">0.01</span>);
+    <span class="c-fn">updateAllUI</span>(); <span class="c-fn">renderMapColors</span>(); <span class="c-fn">recordToGraph</span>();
+    <span class="c-kw">if</span> (currentConflicts === <span class="c-num">0</span> &amp;&amp; temperature &lt; <span class="c-num">1.5</span>) {
+        annealingActive = <span class="c-bool">false</span>;
+        <span class="c-fn">updateAnnealingStatus</span>(<span class="c-str">"optimal"</span>); <span class="c-kw">return</span>;
+    }
+    <span class="c-kw">if</span> (annealingActive)
+        animationTimer = <span class="c-fn">setTimeout</span>(performAnnealingStep, animationSpeedMs);
+}</code></pre>
+            </div>
+            <div class="code-panel" id="panelPseudo">
+                <div class="code-file-tab">
+                    <i class="fas fa-circle" style="color:#e63946"></i>
+                    <i class="fas fa-circle" style="color:#e9c46a"></i>
+                    <i class="fas fa-circle" style="color:#2a9d8f"></i>
+                    <span class="code-filename">pseudocode.algo &mdash; Simulated Annealing Abstract</span>
+                </div>
+                <pre class="code-block pseudo-block" id="pseudoBlock"><code><span class="c-kw">ALGORITHM</span> SimulatedAnnealing_MapColoring:
+
+  <span class="c-var">G</span>     &larr; Graph of states with adjacency edges
+  <span class="c-var">K</span>     &larr; Number of colors (K = 8)
+  <span class="c-var">T&alpha;</span>    &larr; Initial temperature (user-defined)
+  <span class="c-var">&alpha;</span>     &larr; Cooling rate = 0.985
+
+  <span class="c-fn">ASSIGN</span> each state a random color from {1..K}
+  <span class="c-var">T</span> &larr; T&alpha; | <span class="c-var">E</span> &larr; <span class="c-fn">CountConflicts</span>(coloring)
+
+  <span class="c-kw">WHILE</span> T &gt; 0.01 <span class="c-kw">AND</span> E &gt; 0 <span class="c-kw">DO</span>:
+    <span class="c-var">r</span>     &larr; <span class="c-fn">RandomState</span>(G)
+    <span class="c-var">c_new</span> &larr; <span class="c-fn">RandomColor</span>({1..K})
+    <span class="c-var">E'</span>    &larr; <span class="c-fn">CountConflicts</span>(<span class="c-fn">ApplyChange</span>(S, r, c_new))
+    <span class="c-var">&Delta;E</span>   &larr; E' - E
+    <span class="c-kw">IF</span> &Delta;E &lt; 0 <span class="c-kw">OR</span> <span class="c-fn">Random</span>() &lt; exp(-&Delta;E / T) <span class="c-kw">THEN</span>
+      <span class="c-fn">ACCEPT</span> new coloring
+    <span class="c-var">T</span> &larr; T &times; &alpha;
+  <span class="c-kw">END WHILE</span>
+
+  <span class="c-kw">RETURN</span> Best coloring found</code></pre>
+            </div>
+        </section>
+
+        <section class="team-section glass-panel">
+            <div class="panel-header">
+                <div class="panel-title-row">
+                    <i class="fas fa-users panel-icon"></i>
+                    <span class="panel-title">DEVELOPMENT TEAM</span>
+                </div>
+            </div>
+            <div class="team-grid">
+                <div class="team-card" data-delay="0">
+                    <div class="team-card-glow"></div>
+                    <div class="member-avatar"><i class="fas fa-user-astronaut"></i></div>
+                    <div class="member-info">
+                        <span class="member-name">Soham Dey</span>
+                        <span class="member-role">Frontend Developer</span>
+                    </div>
+                    <div class="member-accent"></div>
+                </div>
+                <div class="team-card" data-delay="1">
+                    <div class="team-card-glow"></div>
+                    <div class="member-avatar"><i class="fas fa-user-ninja"></i></div>
+                    <div class="member-info">
+                        <span class="member-name">Soumya Pramanik</span>
+                        <span class="member-role">Visualization</span>
+                    </div>
+                    <div class="member-accent"></div>
+                </div>
+                <div class="team-card" data-delay="2">
+                    <div class="team-card-glow"></div>
+                    <div class="member-avatar"><i class="fas fa-user-secret"></i></div>
+                    <div class="member-info">
+                        <span class="member-name">Shouvik Biswas</span>
+                        <span class="member-role">Algorithm Design</span>
+                    </div>
+                    <div class="member-accent"></div>
+                </div>
+                <div class="team-card" data-delay="3">
+                    <div class="team-card-glow"></div>
+                    <div class="member-avatar"><i class="fas fa-user-tie"></i></div>
+                    <div class="member-info">
+                        <span class="member-name">Sanjib Mandal</span>
+                        <span class="member-role">Graph Theory</span>
+                    </div>
+                    <div class="member-accent"></div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div class="footer-line"></div>
+            <div class="footer-content">
+                <span class="mono">INDIA MAP COLORING ENGINE</span>
+                <span class="footer-sep">&#9670;</span>
+                <span>Adjacent regions cannot share the same color</span>
+                <span class="footer-sep">&#9670;</span>
+                <span class="mono">Simulated Annealing v2.0</span>
+            </div>
+        </footer>
+
+    </div><!-- /.app-container -->
+</div><!-- /#dashboardScreen -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="script.js"></script>
+
+</body>
+</html>
